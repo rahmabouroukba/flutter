@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "534727369814",
+    "project_id": "rahma12-bou",
+    "storage_bucket": "rahma12-bou.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:534727369814:android:0bcb34c5f1c411f59747f7",
+        "android_client_info": {
+          "package_name": "com.example.rahmabourokba"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "534727369814-i1d8of5unrht26gf7du9gcdvb8fcd8bh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwYtWLhzZUivf0NLlUIOw3k9DMnlPVU1M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "534727369814-i1d8of5unrht26gf7du9gcdvb8fcd8bh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

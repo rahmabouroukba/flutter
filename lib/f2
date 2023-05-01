@@ -1,0 +1,79 @@
+import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class AjouterPage extends StatefulWidget {
+  @override
+  _AjouterPageState createState() => _AjouterPageState();
+}
+
+class _AjouterPageState extends State<AjouterPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _nomController = TextEditingController();
+  final _adresseController = TextEditingController();
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Ajouter des noms et des adresses'),
+      ),
+      body: Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            TextFormField(
+              controller: _nomController,
+              decoration: InputDecoration(
+                labelText: 'Nom',
+              ),
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Veuillez entrer un nom';
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: _adresseController,
+              decoration: InputDecoration(
+                labelText: 'Adresse',
+              ),
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Veuillez entrer une adresse';
+                }
+                return null;
+              },
+            ),
+            ElevatedButton(
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  _ajouterDonnees();
+                  Navigator.of(context).pushNamed("AfficherPage");
+                }
+              },
+              child: Text('Enregistrer'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _ajouterDonnees() async {
+    try {
+      await _db.collection('facture').add({
+        'nom': _nomController.text,
+        'adresse': _adresseController.text,
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Données enregistrées avec succès')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erreur : ${e.toString()}')),
+      );
+    }
+  }
+}
