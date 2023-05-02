@@ -137,7 +137,27 @@ class _CalculState extends State<Calcul> {
                   ),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 50,
+                ),
+                Center(
+                  child: Container(
+                    child: Text(
+                      "électricite",
+                      style: TextStyle(
+                          fontSize: 30,
+                          fontStyle: FontStyle.italic,
+                          fontFamily: 'Niticia Text',
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                          shadows: [
+                            Shadow(
+                              color: Colors.white,
+                              blurRadius: 9,
+                              offset: (Offset(3, 3)),
+                            )
+                          ]),
+                    ),
+                  ),
                 ),
                 Container(
                   margin: EdgeInsets.all(40),
@@ -281,60 +301,96 @@ class _CalculState extends State<Calcul> {
                         )
                       ]),
                 ),
-                SizedBox(height: 30),
-                Row(
-                  children: [
-                    Text('Nombre de mois: '),
-                    DropdownButton(
-                      value: selectedMonths,
-                      items: [
-                        DropdownMenuItem(value: 1, child: Text('1 mois')),
-                        DropdownMenuItem(value: 2, child: Text('2 mois')),
-                        DropdownMenuItem(value: 4, child: Text('4 mois')),
-                        DropdownMenuItem(value: 6, child: Text('6 mois')),
-                        DropdownMenuItem(value: 8, child: Text('8 mois')),
-                        DropdownMenuItem(value: 10, child: Text('10 mois')),
-                        DropdownMenuItem(value: 12, child: Text('12 mois')),
-                      ],
-                      onChanged: (value) {
-                        setState(() {
-                          selectedMonths = value!;
-                        });
-                      },
-                    ),
-                  ],
+                SizedBox(
+                  height: 20,
                 ),
-                TextField(
-                  controller: otherPriceController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'other prix',
+                Container(
+                  margin: EdgeInsets.only(left: 40, right: 40, bottom: 40),
+                  child: FormBuilderDropdown(
+                    name: 'selectedMonths',
+                    decoration: InputDecoration(
+                      hintText: "mois",
+                      hintStyle: TextStyle(color: Colors.grey),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                    ),
+                    initialValue: selectedMonths,
+                    validator: FormBuilderValidators.required(),
+                    items: [
+                      DropdownMenuItem(value: 1, child: Text('1 mois')),
+                      DropdownMenuItem(value: 2, child: Text('2 mois')),
+                      DropdownMenuItem(value: 4, child: Text('4 mois')),
+                      DropdownMenuItem(value: 6, child: Text('6 mois')),
+                      DropdownMenuItem(value: 8, child: Text('8 mois')),
+                      DropdownMenuItem(value: 10, child: Text('10 mois')),
+                      DropdownMenuItem(value: 12, child: Text('12 mois')),
+                    ],
+                    onChanged: (value) {
+                      setState(() {
+                        selectedMonths = value!;
+                      });
+                    },
                   ),
-                  keyboardType: TextInputType.number,
                 ),
-                SizedBox(height: 10),
-                Row(
-                  children: [
-                    Text('Nombre: '),
-                    DropdownButton(
-                      value: selectedNumber,
-                      items: [
-                        DropdownMenuItem(value: 2, child: Text('2')),
-                        DropdownMenuItem(value: 3, child: Text('3')),
-                        DropdownMenuItem(value: 4, child: Text('4')),
-                        DropdownMenuItem(value: 5, child: Text('6')),
-                        DropdownMenuItem(value: 5, child: Text('9')),
-                        DropdownMenuItem(value: 5, child: Text('12')),
-                      ],
-                      onChanged: (value) {
-                        setState(() {
-                          selectedNumber = value!;
-                        });
-                      },
+                Container(
+                  margin: EdgeInsets.only(left: 40, right: 40, bottom: 40),
+                  child: FormBuilderDropdown(
+                    name: 'selectedNumber',
+                    decoration: InputDecoration(
+                      hintText: "nombre",
+                      hintStyle: TextStyle(color: Colors.grey),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
                     ),
-                  ],
+                    initialValue: selectedNumber,
+                    validator: FormBuilderValidators.required(),
+                    items: [
+                      DropdownMenuItem(value: 2, child: Text('2')),
+                      DropdownMenuItem(value: 3, child: Text('3')),
+                      DropdownMenuItem(value: 4, child: Text('4')),
+                      DropdownMenuItem(value: 5, child: Text('6')),
+                      DropdownMenuItem(value: 5, child: Text('9')),
+                      DropdownMenuItem(value: 5, child: Text('12')),
+                    ],
+                    onChanged: (value) {
+                      setState(() {
+                        selectedNumber = value!;
+                      });
+                    },
+                  ),
                 ),
-                SizedBox(height: 10),
+                Container(
+                  margin: EdgeInsets.only(left: 40, right: 40, bottom: 40),
+                  child: FormBuilderTextField(
+                    name: "prix unitaire",
+                    decoration: InputDecoration(
+                      hintText: 'Entre prix unitaire',
+                      hintStyle: TextStyle(color: Colors.grey),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                    ),
+                    keyboardType: TextInputType.number,
+                    controller: otherPriceController,
+                    validator: FormBuilderValidators.compose([
+                      FormBuilderValidators.required(
+                        errorText: 'Veuillez entrer prix unitaire',
+                      ),
+                    ]),
+                    onSaved: (value) {
+                      otherPriceController.text = value!;
+                    },
+                  ),
+                ),
                 ElevatedButton(
                   onPressed: () {
                     double otherPrice =
@@ -346,9 +402,23 @@ class _CalculState extends State<Calcul> {
                   },
                   child: Text('Calculer le total'),
                 ),
-                SizedBox(height: 10),
-                Text('Le total est de $totalPricee'),
-                SizedBox(height: 10),
+                Text(
+                  'Le total est de $totalPricee',
+                  style: TextStyle(
+                      fontSize: 23,
+                      fontStyle: FontStyle.italic,
+                      fontFamily: 'Niticia Text',
+                      color: Colors.yellow,
+                      fontWeight: FontWeight.bold,
+                      shadows: [
+                        Shadow(
+                          color: Color.fromARGB(255, 107, 49, 102),
+                          blurRadius: 9,
+                          offset: (Offset(3, 3)),
+                        )
+                      ]),
+                ),
+                SizedBox(height: 40),
                 ElevatedButton(
                   onPressed: () {
                     setState(() {
@@ -358,62 +428,145 @@ class _CalculState extends State<Calcul> {
                   child: Text('Calculer le totall'),
                 ),
                 SizedBox(height: 10),
-                Text('Le totall est de $totall'),
+                Text(
+                  'Le totall est de $totall',
+                  style: TextStyle(
+                      fontSize: 23,
+                      fontStyle: FontStyle.italic,
+                      fontFamily: 'Niticia Text',
+                      color: Colors.yellow,
+                      fontWeight: FontWeight.bold,
+                      shadows: [
+                        Shadow(
+                          color: Color.fromARGB(255, 107, 49, 102),
+                          blurRadius: 9,
+                          offset: (Offset(3, 3)),
+                        )
+                      ]),
+                ),
                 SizedBox(
-                  height: 100,
+                  height: 50,
                 ),
                 Container(
-                  child: Text("électricite"),
-                ),
-                TextField(
-                  controller: teController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Entre nouveau index',
+                  child: Text(
+                    "GAZ",
+                    style: TextStyle(
+                        fontSize: 40,
+                        fontStyle: FontStyle.italic,
+                        fontFamily: 'Niticia Text',
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                        shadows: [
+                          Shadow(
+                            color: Colors.white,
+                            blurRadius: 9,
+                            offset: (Offset(3, 3)),
+                          )
+                        ]),
                   ),
-                  keyboardType: TextInputType.number,
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 30,
                 ),
-                TextField(
-                  controller: dController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Entre nouveau ancien',
-                  ),
-                  keyboardType: TextInputType.number,
-                ),
-                SizedBox(height: 10),
-                Row(
-                  children: [
-                    Text('Nombre de mois: '),
-                    DropdownButton(
-                      value: selectedMonths,
-                      items: [
-                        DropdownMenuItem(value: 1, child: Text('1 mois')),
-                        DropdownMenuItem(value: 2, child: Text('2 mois')),
-                        DropdownMenuItem(value: 4, child: Text('4 mois')),
-                        DropdownMenuItem(value: 6, child: Text('6 mois')),
-                        DropdownMenuItem(value: 8, child: Text('8 mois')),
-                        DropdownMenuItem(value: 10, child: Text('10 mois')),
-                        DropdownMenuItem(value: 12, child: Text('12 mois')),
-                      ],
-                      onChanged: (value) {
-                        setState(() {
-                          selectedMonths = value!;
-                        });
-                      },
+                Container(
+                  margin: EdgeInsets.only(left: 40, right: 40, bottom: 40),
+                  child: FormBuilderTextField(
+                    name: 'teController',
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                      labelText: 'Entre nouveau index',
                     ),
-                  ],
-                ),
-                TextField(
-                  controller: pricceController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Prix unitaire',
+                    initialValue: teController.text,
+                    keyboardType: TextInputType.number,
+                    validator: FormBuilderValidators.compose([
+                      FormBuilderValidators.required(),
+                      FormBuilderValidators.numeric(),
+                    ]),
+                    onChanged: (value) {
+                      setState(() {
+                        teController.text = value!;
+                      });
+                    },
                   ),
-                  keyboardType: TextInputType.number,
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 40, right: 40, bottom: 40),
+                  child: FormBuilderTextField(
+                    name: 'dController',
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                      labelText: 'Entre nouveau ancien',
+                    ),
+                    initialValue: dController.text,
+                    keyboardType: TextInputType.number,
+                    validator: FormBuilderValidators.compose([
+                      FormBuilderValidators.required(),
+                      FormBuilderValidators.numeric(),
+                    ]),
+                    onChanged: (value) {
+                      setState(() {
+                        dController.text = value!;
+                      });
+                    },
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 40, right: 40, bottom: 40),
+                  child: FormBuilderDropdown(
+                    name: 'selectedMonths',
+                    decoration: InputDecoration(
+                      hintText: "mois",
+                      hintStyle: TextStyle(color: Colors.grey),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                    ),
+                    initialValue: selectedMonths,
+                    validator: FormBuilderValidators.required(),
+                    items: [
+                      DropdownMenuItem(value: 1, child: Text('1 mois')),
+                      DropdownMenuItem(value: 2, child: Text('2 mois')),
+                      DropdownMenuItem(value: 4, child: Text('4 mois')),
+                      DropdownMenuItem(value: 6, child: Text('6 mois')),
+                      DropdownMenuItem(value: 8, child: Text('8 mois')),
+                      DropdownMenuItem(value: 10, child: Text('10 mois')),
+                      DropdownMenuItem(value: 12, child: Text('12 mois')),
+                    ],
+                    onChanged: (value) {
+                      setState(() {
+                        selectedMonths = value as int;
+                      });
+                    },
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 40, right: 40, bottom: 40),
+                  child: FormBuilderTextField(
+                    name: 'price',
+                    controller: pricceController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                      hintText: 'Prix unitaire',
+                    ),
+                    keyboardType: TextInputType.number,
+                  ),
                 ),
                 SizedBox(height: 10),
                 ElevatedButton(
@@ -432,29 +585,84 @@ class _CalculState extends State<Calcul> {
                 SizedBox(height: 10),
                 Text(
                   'Prix total: $totalPrico',
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(
+                      fontSize: 23,
+                      fontStyle: FontStyle.italic,
+                      fontFamily: 'Niticia Text',
+                      color: Colors.yellow,
+                      fontWeight: FontWeight.bold,
+                      shadows: [
+                        Shadow(
+                          color: Color.fromARGB(255, 107, 49, 102),
+                          blurRadius: 9,
+                          offset: (Offset(3, 3)),
+                        )
+                      ]),
                 ),
-                Row(
-                  children: [
-                    Text('Nombre de mois: '),
-                    DropdownButton(
-                      value: selectedMonths,
-                      items: [
-                        DropdownMenuItem(value: 1, child: Text('1 mois')),
-                        DropdownMenuItem(value: 2, child: Text('2 mois')),
-                        DropdownMenuItem(value: 4, child: Text('4 mois')),
-                        DropdownMenuItem(value: 6, child: Text('6 mois')),
-                        DropdownMenuItem(value: 8, child: Text('8 mois')),
-                        DropdownMenuItem(value: 10, child: Text('10 mois')),
-                        DropdownMenuItem(value: 12, child: Text('12 mois')),
-                      ],
-                      onChanged: (value) {
-                        setState(() {
-                          selectedMonths = value!;
-                        });
-                      },
+                SizedBox(
+                  height: 30,
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 40, right: 40, bottom: 40),
+                  child: FormBuilderDropdown(
+                    name: 'months',
+                    decoration: InputDecoration(
+                      hintText: "mois",
+                      hintStyle: TextStyle(color: Colors.grey),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
                     ),
-                  ],
+                    initialValue: selectedMonths,
+                    items: [
+                      DropdownMenuItem(value: 1, child: Text('1 mois')),
+                      DropdownMenuItem(value: 2, child: Text('2 mois')),
+                      DropdownMenuItem(value: 4, child: Text('4 mois')),
+                      DropdownMenuItem(value: 6, child: Text('6 mois')),
+                      DropdownMenuItem(value: 8, child: Text('8 mois')),
+                      DropdownMenuItem(value: 10, child: Text('10 mois')),
+                      DropdownMenuItem(value: 12, child: Text('12 mois')),
+                    ],
+                    onChanged: (value) {
+                      setState(() {
+                        selectedMonths = (value as int?)!;
+                      });
+                    },
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 40, right: 40, bottom: 40),
+                  child: FormBuilderDropdown(
+                    name: 'number',
+                    decoration: InputDecoration(
+                      hintText: "nombre",
+                      hintStyle: TextStyle(color: Colors.grey),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                    ),
+                    initialValue: selectedNumber,
+                    items: [
+                      DropdownMenuItem(value: 2, child: Text('2')),
+                      DropdownMenuItem(value: 3, child: Text('3')),
+                      DropdownMenuItem(value: 4, child: Text('4')),
+                      DropdownMenuItem(value: 5, child: Text('6')),
+                      DropdownMenuItem(value: 9, child: Text('9')),
+                      DropdownMenuItem(value: 12, child: Text('12')),
+                    ],
+                    onChanged: (value) {
+                      setState(() {
+                        selectedNumber = (value as int?)!;
+                      });
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
                 ),
                 TextField(
                   controller: otherrPriceController,
@@ -465,27 +673,6 @@ class _CalculState extends State<Calcul> {
                   keyboardType: TextInputType.number,
                 ),
                 SizedBox(height: 10),
-                Row(
-                  children: [
-                    Text('Nombre: '),
-                    DropdownButton(
-                      value: selectedNumber,
-                      items: [
-                        DropdownMenuItem(value: 2, child: Text('2')),
-                        DropdownMenuItem(value: 3, child: Text('3')),
-                        DropdownMenuItem(value: 4, child: Text('4')),
-                        DropdownMenuItem(value: 5, child: Text('6')),
-                        DropdownMenuItem(value: 5, child: Text('9')),
-                        DropdownMenuItem(value: 5, child: Text('12')),
-                      ],
-                      onChanged: (value) {
-                        setState(() {
-                          selectedNumber = value!;
-                        });
-                      },
-                    ),
-                  ],
-                ),
                 SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: () {

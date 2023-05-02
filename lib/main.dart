@@ -12,16 +12,11 @@ import 'package:rahmabourokba/add.dart';
 import 'package:rahmabourokba/bienvenu.dart';
 import 'package:rahmabourokba/calcul.dart';
 import 'package:rahmabourokba/connection.dart';
-import 'package:rahmabourokba/f2.dart';
-import 'package:rahmabourokba/f3.dart';
 
 import 'package:rahmabourokba/gaz.dart';
-import 'package:rahmabourokba/gm.dart';
 import 'package:rahmabourokba/loginview.dart';
 import 'package:rahmabourokba/demande.dart';
 import 'package:rahmabourokba/facture.dart';
-import 'package:rahmabourokba/not.dart';
-import 'package:rahmabourokba/page1.dart';
 
 import 'package:rahmabourokba/reclamation.dart';
 import 'package:rahmabourokba/panne.dart';
@@ -50,7 +45,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Reclamation(),
+        home: Calcul(),
         routes: {
           "LoginView": (context) => connexion(),
           "Reclamation": (context) => Reclamation(),
