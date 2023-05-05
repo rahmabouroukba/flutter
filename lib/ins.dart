@@ -48,7 +48,7 @@ class _InscriptionState extends State<Inscription> {
                 children: [
                   SizedBox(height: 70),
                   Text(
-                    'Inscription ',
+                    'Inscription',
                     style: TextStyle(
                         color: Color.fromARGB(255, 204, 43, 191),
                         fontSize: 40,

@@ -752,7 +752,7 @@ class _ReclamationState extends State<Reclamation> {
                                 selectedPrestationTechnique,
                             'type de client': 'client industriel',
                             'rediger': _rediger,
-                          });œ
+                          });
                         } else if (selectedService == "client residentiel") {
                           await FirebaseFirestore.instance
                               .collection('reclamation')

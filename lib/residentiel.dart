@@ -31,33 +31,33 @@ class _RemState extends State<Rem> {
   late String _profession;
   late String _ville;
 
-  void _submitForm() async {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      await FirebaseFirestore.instance
-          .collection('demandes')
-          .doc('autres demande')
-          .collection('client residentiel')
-          .add({
-        'nom': _nom,
-        'cin': _cin,
-        'reference': _reference,
-        'district': _district,
-        'mot_de_passe': passwordController.text,
-        'adresse': _adr,
-        'email': emailController.text,
-        'numero_telephone': _ntel,
-        'profession': _profession,
-        'ville': _ville,
-        'activite': _activite,
-        'rediger': _rediger,
-        'date': _date,
-        'fax': _fax,
-        'prestation technique': selectedPrestationTechnique,
-        'prestation commercial': selectedPrestationcommercial,
-      });
-    }
-  }
+  // void _submitForm() async {
+  //   if (_formKey.currentState!.validate()) {
+  //     _formKey.currentState!.save();
+  //     await FirebaseFirestore.instance
+  //         .collection('demandes')
+  //         .doc('autres demande')
+  //         .collection('client residentiel')
+  //         .add({
+  //       'nom': _nom,
+  //       'cin': _cin,
+  //       'reference': _reference,
+  //       'district': _district,
+  //       'mot_de_passe': passwordController.text,
+  //       'adresse': _adr,
+  //       'email': emailController.text,
+  //       'numero_telephone': _ntel,
+  //       'profession': _profession,
+  //       'ville': _ville,
+  //       'activite': _activite,
+  //       'rediger': _rediger,
+  //       'date': _date,
+  //       'fax': _fax,
+  //       'prestation technique': selectedPrestationTechnique,
+  //       'prestation commercial': selectedPrestationcommercial,
+  //     });
+  //   }
+  // }
 
   FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -191,253 +191,253 @@ class _RemState extends State<Rem> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      margin: EdgeInsets.all(40),
-                      child: FormBuilderTextField(
-                        name: 'nom',
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.person, color: Colors.blue),
-                          hintText: "Nom&Prénom",
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                        ),
-                        validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(
-                            errorText: 'Veuillez entrer un nom',
-                          ),
-                        ]),
-                        onSaved: (value) {
-                          _nom = value!;
-                        },
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 40, right: 40, bottom: 40),
-                      child: FormBuilderTextField(
-                        name: 'cin',
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(
-                            Icons.lock,
-                            color: Colors.blue,
-                          ),
-                          hintText: "CIN",
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                        ),
-                        validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(
-                            errorText: 'Veuillez entrer un CIN',
-                          ),
-                          (value) {
-                            if (value!.length != 6 && value.length != 8) {
-                              return 'Le CIN doit comporter 6 ou 8 chiffres';
-                            }
-                            return null;
-                          },
-                        ]),
-                        onSaved: (value) {
-                          _cin = value!;
-                        },
-                        keyboardType: TextInputType.number,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 40, right: 40, bottom: 40),
-                      child: FormBuilderTextField(
-                        name: 'numero telephone',
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.phone, color: Colors.blue),
-                          hintText: "numero telephone",
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                        ),
-                        validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(
-                            errorText:
-                                'Veuillez entrer votre  numero telephone',
-                          ),
-                          (value) {
-                            if (value!.length != 8) {
-                              return 'numero telephone doit comporter 8 chiffres';
-                            }
-                            return null;
-                          },
-                        ]),
-                        onSaved: (value) {
-                          _ntel = value!;
-                        },
-                        keyboardType: TextInputType.number,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 40, right: 40, bottom: 40),
-                      child: FormBuilderTextField(
-                        name: 'reference',
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(
-                            Icons.lock,
-                            color: Colors.blue,
-                          ),
-                          hintText: "Référence",
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                        ),
-                        validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(
-                            errorText: 'Veuillez entrer une référence',
-                          ),
-                          (value) {
-                            if (value != null && value.length != 9) {
-                              return 'La référence doit être composée de 9 chiffres';
-                            }
-                            return null;
-                          },
-                        ]),
-                        onSaved: (value) {
-                          _reference = value!;
-                        },
-                        keyboardType: TextInputType.number,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 40, right: 40, bottom: 40),
-                      child: FormBuilderTextField(
-                        name: 'activite',
-                        decoration: InputDecoration(
-                          prefixIcon:
-                              Icon(Icons.local_activity, color: Colors.blue),
-                          hintText: "activite",
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                        ),
-                        validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(
-                            errorText: 'Veuillez entrer votre activite',
-                          ),
-                        ]),
-                        onSaved: (value) {
-                          _activite = value!;
-                        },
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 40, right: 40, bottom: 40),
-                      child: FormBuilderTextField(
-                        name: 'profession',
-                        decoration: InputDecoration(
-                          prefixIcon:
-                              Icon(Icons.local_activity, color: Colors.blue),
-                          hintText: "profession",
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                        ),
-                        validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(
-                            errorText: 'Veuillez entrer votre profession',
-                          ),
-                        ]),
-                        onSaved: (value) {
-                          _profession = value!;
-                        },
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 40, right: 40, bottom: 40),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(40),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Color.fromARGB(255, 58, 148, 201),
-                              blurRadius: 20,
-                              offset: Offset(0, 10)),
-                        ],
-                      ),
-                      child: FormBuilderDropdown(
-                        name: 'district',
-                        decoration: InputDecoration(
-                          hintText: "District",
-                          hintStyle: TextStyle(color: Colors.grey),
-                          prefixIcon: Icon(
-                            Icons.villa,
-                            color: Colors.blue,
-                          ),
-                          border: InputBorder.none,
-                        ),
-                        items: districtOptions
-                            .map((district) => DropdownMenuItem(
-                                  value: district,
-                                  child: Text(district),
-                                ))
-                            .toList(),
-                        initialValue: districtOptions.first,
-                        onChanged: (value) {
-                          setState(() {
-                            _district = value!;
-                          });
-                        },
-                        validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(
-                            errorText: 'Veuillez sélectionner un district',
-                          ),
-                        ]),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 40, right: 40, bottom: 40),
-                      child: FormBuilderTextField(
-                        name: 'adresse',
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.home, color: Colors.blue),
-                          hintText: "adresse",
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                        ),
-                        validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(
-                            errorText: 'Veuillez entrer votre adresse',
-                          ),
-                        ]),
-                        onSaved: (value) {
-                          _adr = value!;
-                        },
-                      ),
-                    ),
+                    // Container(
+                    //   margin: EdgeInsets.all(40),
+                    //   child: FormBuilderTextField(
+                    //     name: 'nom',
+                    //     decoration: InputDecoration(
+                    //       prefixIcon: Icon(Icons.person, color: Colors.blue),
+                    //       hintText: "Nom&Prénom",
+                    //       hintStyle: TextStyle(color: Colors.grey),
+                    //       border: OutlineInputBorder(
+                    //         borderSide: BorderSide(color: Colors.white),
+                    //         borderRadius: BorderRadius.circular(40),
+                    //       ),
+                    //       filled: true,
+                    //       fillColor: Colors.white,
+                    //     ),
+                    //     validator: FormBuilderValidators.compose([
+                    //       FormBuilderValidators.required(
+                    //         errorText: 'Veuillez entrer un nom',
+                    //       ),
+                    //     ]),
+                    //     onSaved: (value) {
+                    //       _nom = value!;
+                    //     },
+                    //   ),
+                    // ),
+                    // Container(
+                    //   margin: EdgeInsets.only(left: 40, right: 40, bottom: 40),
+                    //   child: FormBuilderTextField(
+                    //     name: 'cin',
+                    //     decoration: InputDecoration(
+                    //       prefixIcon: Icon(
+                    //         Icons.lock,
+                    //         color: Colors.blue,
+                    //       ),
+                    //       hintText: "CIN",
+                    //       hintStyle: TextStyle(color: Colors.grey),
+                    //       border: OutlineInputBorder(
+                    //         borderSide: BorderSide(color: Colors.white),
+                    //         borderRadius: BorderRadius.circular(40),
+                    //       ),
+                    //       filled: true,
+                    //       fillColor: Colors.white,
+                    //     ),
+                    //     validator: FormBuilderValidators.compose([
+                    //       FormBuilderValidators.required(
+                    //         errorText: 'Veuillez entrer un CIN',
+                    //       ),
+                    //       (value) {
+                    //         if (value!.length != 6 && value.length != 8) {
+                    //           return 'Le CIN doit comporter 6 ou 8 chiffres';
+                    //         }
+                    //         return null;
+                    //       },
+                    //     ]),
+                    //     onSaved: (value) {
+                    //       _cin = value!;
+                    //     },
+                    //     keyboardType: TextInputType.number,
+                    //   ),
+                    // ),
+                    // Container(
+                    //   margin: EdgeInsets.only(left: 40, right: 40, bottom: 40),
+                    //   child: FormBuilderTextField(
+                    //     name: 'numero telephone',
+                    //     decoration: InputDecoration(
+                    //       prefixIcon: Icon(Icons.phone, color: Colors.blue),
+                    //       hintText: "numero telephone",
+                    //       hintStyle: TextStyle(color: Colors.grey),
+                    //       border: OutlineInputBorder(
+                    //         borderSide: BorderSide(color: Colors.white),
+                    //         borderRadius: BorderRadius.circular(40),
+                    //       ),
+                    //       filled: true,
+                    //       fillColor: Colors.white,
+                    //     ),
+                    //     validator: FormBuilderValidators.compose([
+                    //       FormBuilderValidators.required(
+                    //         errorText:
+                    //             'Veuillez entrer votre  numero telephone',
+                    //       ),
+                    //       (value) {
+                    //         if (value!.length != 8) {
+                    //           return 'numero telephone doit comporter 8 chiffres';
+                    //         }
+                    //         return null;
+                    //       },
+                    //     ]),
+                    //     onSaved: (value) {
+                    //       _ntel = value!;
+                    //     },
+                    //     keyboardType: TextInputType.number,
+                    //   ),
+                    // ),
+                    // Container(
+                    //   margin: EdgeInsets.only(left: 40, right: 40, bottom: 40),
+                    //   child: FormBuilderTextField(
+                    //     name: 'reference',
+                    //     decoration: InputDecoration(
+                    //       prefixIcon: Icon(
+                    //         Icons.lock,
+                    //         color: Colors.blue,
+                    //       ),
+                    //       hintText: "Référence",
+                    //       hintStyle: TextStyle(color: Colors.grey),
+                    //       border: OutlineInputBorder(
+                    //         borderSide: BorderSide(color: Colors.white),
+                    //         borderRadius: BorderRadius.circular(40),
+                    //       ),
+                    //       filled: true,
+                    //       fillColor: Colors.white,
+                    //     ),
+                    //     validator: FormBuilderValidators.compose([
+                    //       FormBuilderValidators.required(
+                    //         errorText: 'Veuillez entrer une référence',
+                    //       ),
+                    //       (value) {
+                    //         if (value != null && value.length != 9) {
+                    //           return 'La référence doit être composée de 9 chiffres';
+                    //         }
+                    //         return null;
+                    //       },
+                    //     ]),
+                    //     onSaved: (value) {
+                    //       _reference = value!;
+                    //     },
+                    //     keyboardType: TextInputType.number,
+                    //   ),
+                    // ),
+                    // Container(
+                    //   margin: EdgeInsets.only(left: 40, right: 40, bottom: 40),
+                    //   child: FormBuilderTextField(
+                    //     name: 'activite',
+                    //     decoration: InputDecoration(
+                    //       prefixIcon:
+                    //           Icon(Icons.local_activity, color: Colors.blue),
+                    //       hintText: "activite",
+                    //       hintStyle: TextStyle(color: Colors.grey),
+                    //       border: OutlineInputBorder(
+                    //         borderSide: BorderSide(color: Colors.white),
+                    //         borderRadius: BorderRadius.circular(40),
+                    //       ),
+                    //       filled: true,
+                    //       fillColor: Colors.white,
+                    //     ),
+                    //     validator: FormBuilderValidators.compose([
+                    //       FormBuilderValidators.required(
+                    //         errorText: 'Veuillez entrer votre activite',
+                    //       ),
+                    //     ]),
+                    //     onSaved: (value) {
+                    //       _activite = value!;
+                    //     },
+                    //   ),
+                    // ),
+                    // Container(
+                    //   margin: EdgeInsets.only(left: 40, right: 40, bottom: 40),
+                    //   child: FormBuilderTextField(
+                    //     name: 'profession',
+                    //     decoration: InputDecoration(
+                    //       prefixIcon:
+                    //           Icon(Icons.local_activity, color: Colors.blue),
+                    //       hintText: "profession",
+                    //       hintStyle: TextStyle(color: Colors.grey),
+                    //       border: OutlineInputBorder(
+                    //         borderSide: BorderSide(color: Colors.white),
+                    //         borderRadius: BorderRadius.circular(40),
+                    //       ),
+                    //       filled: true,
+                    //       fillColor: Colors.white,
+                    //     ),
+                    //     validator: FormBuilderValidators.compose([
+                    //       FormBuilderValidators.required(
+                    //         errorText: 'Veuillez entrer votre profession',
+                    //       ),
+                    //     ]),
+                    //     onSaved: (value) {
+                    //       _profession = value!;
+                    //     },
+                    //   ),
+                    // ),
+                    // Container(
+                    //   margin: EdgeInsets.only(left: 40, right: 40, bottom: 40),
+                    //   decoration: BoxDecoration(
+                    //     color: Colors.white,
+                    //     borderRadius: BorderRadius.circular(40),
+                    //     boxShadow: [
+                    //       BoxShadow(
+                    //           color: Color.fromARGB(255, 58, 148, 201),
+                    //           blurRadius: 20,
+                    //           offset: Offset(0, 10)),
+                    //     ],
+                    //   ),
+                    //   child: FormBuilderDropdown(
+                    //     name: 'district',
+                    //     decoration: InputDecoration(
+                    //       hintText: "District",
+                    //       hintStyle: TextStyle(color: Colors.grey),
+                    //       prefixIcon: Icon(
+                    //         Icons.villa,
+                    //         color: Colors.blue,
+                    //       ),
+                    //       border: InputBorder.none,
+                    //     ),
+                    //     items: districtOptions
+                    //         .map((district) => DropdownMenuItem(
+                    //               value: district,
+                    //               child: Text(district),
+                    //             ))
+                    //         .toList(),
+                    //     initialValue: districtOptions.first,
+                    //     onChanged: (value) {
+                    //       setState(() {
+                    //         _district = value!;
+                    //       });
+                    //     },
+                    //     validator: FormBuilderValidators.compose([
+                    //       FormBuilderValidators.required(
+                    //         errorText: 'Veuillez sélectionner un district',
+                    //       ),
+                    //     ]),
+                    //   ),
+                    // ),
+                    // Container(
+                    //   margin: EdgeInsets.only(left: 40, right: 40, bottom: 40),
+                    //   child: FormBuilderTextField(
+                    //     name: 'adresse',
+                    //     decoration: InputDecoration(
+                    //       prefixIcon: Icon(Icons.home, color: Colors.blue),
+                    //       hintText: "adresse",
+                    //       hintStyle: TextStyle(color: Colors.grey),
+                    //       border: OutlineInputBorder(
+                    //         borderSide: BorderSide(color: Colors.white),
+                    //         borderRadius: BorderRadius.circular(40),
+                    //       ),
+                    //       filled: true,
+                    //       fillColor: Colors.white,
+                    //     ),
+                    //     validator: FormBuilderValidators.compose([
+                    //       FormBuilderValidators.required(
+                    //         errorText: 'Veuillez entrer votre adresse',
+                    //       ),
+                    //     ]),
+                    //     onSaved: (value) {
+                    //       _adr = value!;
+                    //     },
+                    //   ),
+                    // ),
                     Container(
                       margin: EdgeInsets.only(left: 40, right: 40, bottom: 40),
                       child: FormBuilderTextField(
@@ -458,7 +458,7 @@ class _RemState extends State<Rem> {
                             errorText: 'Veuillez entrer votre ville',
                           ),
                         ]),
-                        onSaved: (value) {
+                        onChanged: (value) {
                           _ville = value!;
                         },
                       ),
@@ -466,6 +466,7 @@ class _RemState extends State<Rem> {
                     Container(
                       margin: EdgeInsets.only(left: 40, right: 40, bottom: 40),
                       child: FormBuilderTextField(
+                        keyboardType: TextInputType.datetime,
                         name: 'date',
                         decoration: InputDecoration(
                           prefixIcon:
@@ -484,97 +485,97 @@ class _RemState extends State<Rem> {
                             errorText: 'Veuillez entrer date',
                           ),
                         ]),
-                        onSaved: (value) {
+                        onChanged: (value) {
                           _date = value!;
                         },
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(left: 40, right: 40, bottom: 40),
-                      child: FormBuilderTextField(
-                        name: 'fax',
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.fax, color: Colors.blue),
-                          hintText: "fax",
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                        ),
-                        validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(
-                            errorText: 'Veuillez entrer votre fax',
-                          ),
-                        ]),
-                        onSaved: (value) {
-                          _fax = value!;
-                        },
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 40, right: 40, bottom: 40),
-                      child: FormBuilderTextField(
-                        name:
-                            'email', // You can set any attribute name you want
-                        controller: emailController,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(
-                            Icons.email,
-                            color: Colors.blue,
-                          ),
-                          hintText: "Email",
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                        ),
-                        validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(
-                              errorText:
-                                  'Entrer votre Email'), // Add a required validator
-                          FormBuilderValidators.email(
-                              errorText:
-                                  'Please enter a valid email'), // Add an email format validator
-                        ]),
-                        keyboardType: TextInputType.emailAddress,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 40, right: 40, bottom: 40),
-                      child: FormBuilderTextField(
-                        name:
-                            'password', // Vous pouvez définir n'importe quel nom d'attribut
-                        controller: passwordController,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.lock, color: Colors.blue),
-                          hintText: "Mot de passe",
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                        ),
-                        validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(
-                            errorText: 'Veuillez entrer votre mot de passe',
-                          ),
-                          (value) {
-                            if (value != null && value.length != 6) {
-                              return 'La mot de passe  doit être composée de 6 chiffres';
-                            }
-                            return null;
-                          },
-                        ]),
-                        keyboardType: TextInputType.number,
-                      ),
-                    ),
+                    // Container(
+                    //   margin: EdgeInsets.only(left: 40, right: 40, bottom: 40),
+                    //   child: FormBuilderTextField(
+                    //     name: 'fax',
+                    //     decoration: InputDecoration(
+                    //       prefixIcon: Icon(Icons.fax, color: Colors.blue),
+                    //       hintText: "fax",
+                    //       hintStyle: TextStyle(color: Colors.grey),
+                    //       border: OutlineInputBorder(
+                    //         borderSide: BorderSide(color: Colors.white),
+                    //         borderRadius: BorderRadius.circular(40),
+                    //       ),
+                    //       filled: true,
+                    //       fillColor: Colors.white,
+                    //     ),
+                    //     validator: FormBuilderValidators.compose([
+                    //       FormBuilderValidators.required(
+                    //         errorText: 'Veuillez entrer votre fax',
+                    //       ),
+                    //     ]),
+                    //     onSaved: (value) {
+                    //       _fax = value!;
+                    //     },
+                    //   ),
+                    // ),
+                    // Container(
+                    //   margin: EdgeInsets.only(left: 40, right: 40, bottom: 40),
+                    //   child: FormBuilderTextField(
+                    //     name:
+                    //         'email', // You can set any attribute name you want
+                    //     controller: emailController,
+                    //     decoration: InputDecoration(
+                    //       prefixIcon: Icon(
+                    //         Icons.email,
+                    //         color: Colors.blue,
+                    //       ),
+                    //       hintText: "Email",
+                    //       border: OutlineInputBorder(
+                    //         borderSide: BorderSide(color: Colors.white),
+                    //         borderRadius: BorderRadius.circular(40),
+                    //       ),
+                    //       filled: true,
+                    //       fillColor: Colors.white,
+                    //     ),
+                    //     validator: FormBuilderValidators.compose([
+                    //       FormBuilderValidators.required(
+                    //           errorText:
+                    //               'Entrer votre Email'), // Add a required validator
+                    //       FormBuilderValidators.email(
+                    //           errorText:
+                    //               'Please enter a valid email'), // Add an email format validator
+                    //     ]),
+                    //     keyboardType: TextInputType.emailAddress,
+                    //   ),
+                    // ),
+                    // Container(
+                    //   margin: EdgeInsets.only(left: 40, right: 40, bottom: 40),
+                    //   child: FormBuilderTextField(
+                    //     name:
+                    //         'password', // Vous pouvez définir n'importe quel nom d'attribut
+                    //     controller: passwordController,
+                    //     obscureText: true,
+                    //     decoration: InputDecoration(
+                    //       prefixIcon: Icon(Icons.lock, color: Colors.blue),
+                    //       hintText: "Mot de passe",
+                    //       border: OutlineInputBorder(
+                    //         borderSide: BorderSide(color: Colors.white),
+                    //         borderRadius: BorderRadius.circular(40),
+                    //       ),
+                    //       filled: true,
+                    //       fillColor: Colors.white,
+                    //     ),
+                    //     validator: FormBuilderValidators.compose([
+                    //       FormBuilderValidators.required(
+                    //         errorText: 'Veuillez entrer votre mot de passe',
+                    //       ),
+                    //       (value) {
+                    //         if (value != null && value.length != 6) {
+                    //           return 'La mot de passe  doit être composée de 6 chiffres';
+                    //         }
+                    //         return null;
+                    //       },
+                    //     ]),
+                    //     keyboardType: TextInputType.number,
+                    //   ),
+                    // ),
                     Column(
                       children: [
                         Row(
@@ -710,7 +711,7 @@ class _RemState extends State<Rem> {
                             errorText: 'description votre reclamation',
                           ),
                         ]),
-                        onSaved: (value) {
+                        onChanged: (value) {
                           _rediger = value!;
                         },
                       ),
@@ -718,38 +719,81 @@ class _RemState extends State<Rem> {
                     Container(
                       child: ElevatedButton(
                         onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            _formKey.currentState!.save();
-                            await auth.createUserWithEmailAndPassword(
-                                email: emailController.text,
-                                password: passwordController.text);
-                            _submitForm();
-
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text(
-                                    "Veuillez patienter pour répondre à votre demande, nous la traiterons dans les plus brefs délais.",
-                                    style: TextStyle(
-                                      fontSize: 17,
-                                      fontStyle: FontStyle.italic,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color.fromARGB(255, 221, 44, 197),
-                                    ),
-                                  ),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      child: Text('Merci'),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
+                          if (selectedService == "prestation commercial") {
+                            final User? user =
+                                FirebaseAuth.instance.currentUser;
+                            final _uid = user!.uid;
+                            await FirebaseFirestore.instance
+                                .collection('demandes')
+                                .doc('autres demande')
+                                .collection('client residentiel')
+                                .doc("prestation commercial")
+                                .collection(_uid)
+                                .doc()
+                                .set({
+                              'ville': _ville,
+                              'date': _date,
+                              'prestation': 'prestation commercial',
+                              'choix du prestation':
+                                  selectedPrestationcommercial,
+                              'id': _uid,
+                              'rediger': _rediger
+                            });
+                          } else if (selectedService ==
+                              "prestation technique") {
+                            final User? user =
+                                FirebaseAuth.instance.currentUser;
+                            final _uid = user!.uid;
+                            await FirebaseFirestore.instance
+                                .collection('demandes')
+                                .doc('autres demande')
+                                .collection('client residentiel')
+                                .doc("prestation technique")
+                                .collection(_uid)
+                                .doc()
+                                .set({
+                              'ville': _ville,
+                              'date': _date,
+                              'prestation': 'prestation commercial',
+                              'choix du pprestation':
+                                  selectedPrestationTechnique,
+                              'id': _uid,
+                              'rediger': _rediger
+                            });
                           }
+
+                          // if (_formKey.currentState!.validate()) {
+                          //   _formKey.currentState!.save();
+                          //   await auth.createUserWithEmailAndPassword(
+                          //       email: emailController.text,
+                          //       password: passwordController.text);
+                          //   _submitForm();
+
+                          //   showDialog(
+                          //     context: context,
+                          //     builder: (BuildContext context) {
+                          //       return AlertDialog(
+                          //         title: Text(
+                          //           "Veuillez patienter pour répondre à votre demande, nous la traiterons dans les plus brefs délais.",
+                          //           style: TextStyle(
+                          //             fontSize: 17,
+                          //             fontStyle: FontStyle.italic,
+                          //             fontWeight: FontWeight.bold,
+                          //             color: Color.fromARGB(255, 221, 44, 197),
+                          //           ),
+                          //         ),
+                          //         actions: <Widget>[
+                          //           TextButton(
+                          //             child: Text('Merci'),
+                          //             onPressed: () {
+                          //               Navigator.of(context).pop();
+                          //             },
+                          //           ),
+                          //         ],
+                          //       );
+                          //     },
+                          //   );
+                          // }
                         },
                         child: Text(
                           "Envoyer",

@@ -9,18 +9,18 @@ class Inscription extends StatefulWidget {
 
 class _InscriptionState extends State<Inscription> {
   String name = "";
-  void addData() async {
-    CollectionReference usersRef =
-        FirebaseFirestore.instance.collection("users");
-    usersRef.add({
-      "username": "rahma",
-      "age": 21,
-      "email": "rahmabourokba2@gmail.com",
-      "cin": "13277245",
-      "adresse": "Rue bechir mahmoud",
-      "password": "rahmaaaa",
-    });
-  }
+  // void addData() async {
+  //   CollectionReference usersRef =
+  //       FirebaseFirestore.instance.collection("users");
+  //   usersRef.add({
+  //     "username": "rahma",
+  //     "age": 21,
+  //     "email": "rahmabourokba2@gmail.com",
+  //     "cin": "13277245",
+  //     "adresse": "Rue bechir mahmoud",
+  //     "password": "rahmaaaa",
+  //   });
+  // }
 
   FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -28,11 +28,11 @@ class _InscriptionState extends State<Inscription> {
 
   TextEditingController passwordController = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    addData();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   addData();
+  // }
 
   @override
   Widget build(BuildContext context) {

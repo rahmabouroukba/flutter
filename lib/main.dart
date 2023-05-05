@@ -17,6 +17,7 @@ import 'package:rahmabourokba/gaz.dart';
 import 'package:rahmabourokba/loginview.dart';
 import 'package:rahmabourokba/demande.dart';
 import 'package:rahmabourokba/facture.dart';
+import 'package:rahmabourokba/rah1.dart';
 
 import 'package:rahmabourokba/reclamation.dart';
 import 'package:rahmabourokba/panne.dart';
@@ -31,6 +32,7 @@ import 'package:rahmabourokba/loc.dart';
 import 'package:rahmabourokba/rah.dart';
 
 import 'package:rahmabourokba/search.dart';
+import 'package:rahmabourokba/splash.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,25 +45,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Calcul(),
-        routes: {
-          "LoginView": (context) => connexion(),
-          "Reclamation": (context) => Reclamation(),
-          "loc": (context) => loc(),
-          "insciption": (context) => Inscription(),
-          "facture": (context) => Facture(),
-          "Facture22": (context) => Facture22(),
-          "panne": (context) => Panne(),
-          "rep": (context) => Rep(),
-          "rem": (context) => Rem(),
-          "Home": (context) => Home(),
-          "search": (context) => search(),
-          "gaz": (context) => gazz(),
-          "rah": (context) => rah(),
-          "loginview": (context) => LoginView(),
-          "demande": (context) => Demande(),
-        });
+    return MaterialApp(debugShowCheckedModeBanner: false, home: Rem(), routes: {
+      "LoginView": (context) => connexion(),
+      "Reclamation": (context) => Reclamation(),
+      "loc": (context) => loc(),
+      "insciption": (context) => Inscription(),
+      "facture": (context) => Facture(),
+      "Facture22": (context) => Facture22(),
+      "panne": (context) => Panne(),
+      "rep": (context) => Rep(),
+      "rem": (context) => Rem(),
+      "Home": (context) => Home(),
+      "search": (context) => search(),
+      "gaz": (context) => gazz(),
+      // "rah": (context) => rah(),
+      "loginview": (context) => LoginView(),
+      "demande": (context) => Demande(),
+    });
   }
 }
