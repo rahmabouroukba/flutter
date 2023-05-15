@@ -1,8 +1,11 @@
 import 'dart:io';
+import 'dart:math';
 
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:image_picker/image_picker.dart';
@@ -17,86 +20,58 @@ class gazz extends StatefulWidget {
 }
 
 class _gazzState extends State<gazz> {
-  String? selectedDistrict;
   final _formKey = GlobalKey<FormState>();
+  // li zidthom ena
+  File? _pickedImage;
+  ImagePicker? imagePicker;
+  final ImagePicker _picker = ImagePicker();
+
+  // li zidthom ena
+  File? _pickedImage2;
+  ImagePicker? imagePicker2;
+  final ImagePicker _picker2 = ImagePicker();
+  final Random _random = Random(); // 3ayt li random mn biblio math
+  String? imageUrl1; //edheya lien image
+  String? imageUrl2;
+  // edheya fonction li taatik adad aleatoire besh tsami beha taswira
+  String generateRandomName(int length) {
+    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    return String.fromCharCodes(Iterable.generate(
+        length, (_) => chars.codeUnitAt(_random.nextInt(chars.length))));
+  }
+  // youfew houni
 
   final firestore = FirebaseFirestore.instance;
   FirebaseStorage storage = FirebaseStorage.instance;
-  Future<List<String>> uploadFiles(File file, File file2) async {
-    List<String> ids = [];
-    String fileName = Path.basename(file.path);
-    Reference ref = storage.ref().child("images/$fileName");
-    UploadTask uploadTask = ref.putFile(file);
-    TaskSnapshot taskSnapshot = await uploadTask;
-    String id = taskSnapshot.ref.name;
-    ids.add(id);
+  // Future<List<String>> uploadFiles(File file, File file2) async {
+  //   List<String> ids = [];
+  //   String fileName = Path.basename(file.path);
+  //   Reference ref = storage.ref().child("images/$fileName");
+  //   UploadTask uploadTask = ref.putFile(file);
+  //   TaskSnapshot taskSnapshot = await uploadTask;
+  //   String id = taskSnapshot.ref.name;
+  //   ids.add(id);
 
-    // ignore: unnecessary_null_comparison
-    if (file2 != null) {
-      String fileName2 = Path.basename(file2.path);
-      Reference ref2 = storage.ref().child("images/$fileName2");
-      UploadTask uploadTask2 = ref2.putFile(file2);
-      TaskSnapshot taskSnapshot2 = await uploadTask2;
-      String id2 = taskSnapshot2.ref.name;
-      ids.add(id2);
-    }
+  // ignore: unnecessary_null_comparison
+  //   if (file2 != null) {
+  //     String fileName2 = Path.basename(file2.path);
+  //     Reference ref2 = storage.ref().child("images/$fileName2");
+  //     UploadTask uploadTask2 = ref2.putFile(file2);
+  //     TaskSnapshot taskSnapshot2 = await uploadTask2;
+  //     String id2 = taskSnapshot2.ref.name;
+  //     ids.add(id2);
+  //   }
 
-    return ids;
-  }
+  //   return ids;
+  // }
 
   TextEditingController _dimController = TextEditingController();
-  TextEditingController _adrController = TextEditingController();
-
-  TextEditingController _nomController = TextEditingController();
 
   ImagePicker image = ImagePicker();
-
-  final List<String> districtOptions = [
-    'Tunis',
-    'Ariana',
-    'Ezzahra',
-    'El Kram',
-    'Le Bardo',
-    'Manouba',
-    'Mourouj',
-    'Bizerte',
-    'Nabeul',
-    'Béja',
-    'Jendouba',
-    'Le Kef',
-    'Siliana',
-    'Sousse',
-    'Monastir',
-    'Moknine',
-    'Mahdia',
-    'Kairouan',
-    'Kasserine',
-    'Sidi Bouzid',
-    'Gafsa',
-    'Sfax',
-    'Kébili',
-    'Gabès',
-    'Zarzis',
-    'Médenine',
-    'Djerba',
-    'Tataouine',
-    'Tozeur',
-    'Menzel Bourguiba',
-    'Zaghouan',
-    'Mahres',
-    'Métlaoui',
-    'El Menzah',
-    'El Jem',
-    'Ben Guerdane',
-    'Hammamet',
-    'Msaken',
-  ];
 
   File? file;
 
   File? file2;
-
-  late String _district;
 
   @override
   Widget build(BuildContext context) {
@@ -159,32 +134,6 @@ class _gazzState extends State<gazz> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          margin: EdgeInsets.all(40),
-                          child: FormBuilderTextField(
-                            name: "nom",
-                            controller: _nomController,
-                            validator: FormBuilderValidators.compose([
-                              FormBuilderValidators.required(
-                                errorText: 'Veuillez entrer un nom',
-                              ),
-                            ]),
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.person,
-                                color: Colors.blue,
-                              ),
-                              hintText: "Nom&Prénom",
-                              hintStyle: TextStyle(color: Colors.grey),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
-                                borderRadius: BorderRadius.circular(40),
-                              ),
-                              filled: true,
-                              fillColor: Colors.white,
-                            ),
-                          ),
-                        ),
-                        Container(
                           margin:
                               EdgeInsets.only(left: 40, right: 40, bottom: 40),
                           child: FormBuilderTextField(
@@ -201,71 +150,6 @@ class _gazzState extends State<gazz> {
                                 color: Colors.blue,
                               ),
                               hintText: "dimension",
-                              hintStyle: TextStyle(color: Colors.grey),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
-                                borderRadius: BorderRadius.circular(40),
-                              ),
-                              filled: true,
-                              fillColor: Colors.white,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin:
-                              EdgeInsets.only(left: 40, right: 40, bottom: 40),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Color.fromARGB(255, 58, 148, 201),
-                                  blurRadius: 20,
-                                  offset: Offset(0, 10)),
-                            ],
-                          ),
-                          child: FormBuilderDropdown(
-                            name: 'district',
-                            decoration: InputDecoration(
-                              hintText: "District",
-                              hintStyle: TextStyle(color: Colors.grey),
-                              prefixIcon: Icon(
-                                Icons.villa,
-                                color: Colors.blue,
-                              ),
-                              border: InputBorder.none,
-                            ),
-                            items: districtOptions
-                                .map((district) => DropdownMenuItem(
-                                      value: district,
-                                      child: Text(district),
-                                    ))
-                                .toList(),
-                            initialValue: districtOptions.first,
-                            onChanged: (value) {
-                              setState(() {
-                                _district = value!;
-                              });
-                            },
-                          ),
-                        ),
-                        Container(
-                          margin:
-                              EdgeInsets.only(left: 40, right: 40, bottom: 40),
-                          child: FormBuilderTextField(
-                            name: "adresse",
-                            controller: _adrController,
-                            validator: FormBuilderValidators.compose([
-                              FormBuilderValidators.required(
-                                errorText: 'Veuillez entrer votre adresse ',
-                              ),
-                            ]),
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.person,
-                                color: Colors.blue,
-                              ),
-                              hintText: "adresse",
                               hintStyle: TextStyle(color: Colors.grey),
                               border: OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.white),
@@ -299,14 +183,14 @@ class _gazzState extends State<gazz> {
                                       borderRadius: BorderRadius.circular(4)),
                                   height: 140,
                                   width: 180,
-                                  child: file == null
+                                  child: _pickedImage2 == null
                                       ? Icon(
                                           Icons.image,
                                           size: 50,
                                           color: Colors.white,
                                         )
                                       : Image.file(
-                                          file!,
+                                          _pickedImage2!,
                                           fit: BoxFit.fill,
                                         ),
                                 ),
@@ -316,7 +200,7 @@ class _gazzState extends State<gazz> {
                               children: [
                                 MaterialButton(
                                   onPressed: () {
-                                    getgall();
+                                    addGallery2();
                                   },
                                   color: Color.fromARGB(255, 129, 72, 113),
                                   child: Text(
@@ -326,7 +210,7 @@ class _gazzState extends State<gazz> {
                                 ),
                                 MaterialButton(
                                   onPressed: () {
-                                    getcam();
+                                    addCamera2();
                                   },
                                   color: Color.fromARGB(255, 189, 117, 177),
                                   child: Text(
@@ -366,14 +250,14 @@ class _gazzState extends State<gazz> {
                                         ),
                                         height: 140,
                                         width: 180,
-                                        child: file2 == null
+                                        child: _pickedImage == null
                                             ? Icon(
                                                 Icons.image,
                                                 size: 50,
                                                 color: Colors.white,
                                               )
                                             : Image.file(
-                                                file2!,
+                                                _pickedImage!,
                                                 fit: BoxFit.fill,
                                               ),
                                       ),
@@ -382,7 +266,7 @@ class _gazzState extends State<gazz> {
                                         children: [
                                           MaterialButton(
                                             onPressed: () {
-                                              getgall2();
+                                              addGallery();
                                             },
                                             color: Color.fromARGB(
                                                 255, 129, 72, 113),
@@ -394,7 +278,7 @@ class _gazzState extends State<gazz> {
                                           ),
                                           MaterialButton(
                                             onPressed: () {
-                                              getcam2();
+                                              addCamera();
                                             },
                                             color: Color.fromARGB(
                                                 255, 189, 117, 177),
@@ -419,30 +303,51 @@ class _gazzState extends State<gazz> {
                             child: ElevatedButton(
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
-                                  if (_nomController.text.isNotEmpty &&
-                                      _dimController.text.isNotEmpty &&
-                                      _district.isNotEmpty &&
-                                      _adrController.text.isNotEmpty &&
-                                      file != null &&
-                                      file2 != null) {
+                                  if (_dimController.text.isNotEmpty &&
+                                      _pickedImage2 != null &&
+                                      _pickedImage != null) {
                                     _formKey.currentState!.save();
+                                    final User? user =
+                                        FirebaseAuth.instance.currentUser;
+                                    final _uid = user!.uid;
+                                    final randomName = generateRandomName(10);
+                                    //? edheya script li yaaml upload
+                                    final ref1 = FirebaseStorage.instance
+                                        .ref()
+                                        .child('images')
+                                        .child(randomName + '.jpg');
+                                    await ref1.putFile(_pickedImage2!);
+                                    //? edheya script li yekhou lien baed upload
+                                    imageUrl1 = await ref1.getDownloadURL();
+                                    //
+                                    final randomName2 = generateRandomName(8);
+                                    //? edheya script li yaaml upload
+                                    final ref2 = FirebaseStorage.instance
+                                        .ref()
+                                        .child('images')
+                                        .child(randomName2 + '.jpg');
+                                    await ref2.putFile(_pickedImage!);
+                                    //? edheya script li yekhou lien baed upload
+                                    imageUrl2 = await ref2.getDownloadURL();
 
-                                    List<String> ids =
-                                        await uploadFiles(file!, file2!);
-                                    String id1 = ids[0];
-                                    String id2 = ids.length > 1 ? ids[1] : '';
+                                    // List<String> ids =
+                                    //     await uploadFiles(file!, file2!);
+                                    // String id1 = ids[0];
+                                    // String id2 = ids.length > 1 ? ids[1] : '';
+                                    // String convertXFileToPath(XFile file) {
+                                    //   return file.path;
+                                    // }
 
-                                    await firestore
+                                    await FirebaseFirestore.instance
                                         .collection('demandes')
                                         .doc('nouveau gaz')
                                         .collection('gaz')
-                                        .add({
-                                      'id1': id1,
-                                      'id2': id2,
-                                      'name': _nomController.text,
+                                        .doc(_uid)
+                                        .set({
+                                      'id1': imageUrl2,
+                                      'id': _uid,
+                                      'id2': imageUrl1,
                                       'dimension': _dimController.text,
-                                      'District': _district,
-                                      'adresse': _adrController.text
                                     });
 
                                     showDialog(
@@ -524,47 +429,90 @@ class _gazzState extends State<gazz> {
         ));
   }
 
-  getgall() async {
-    var img = await ImagePicker().getImage(source: ImageSource.gallery);
-    if (img != null) {
+  // getgall() async {
+  //   var img = await ImagePicker().getImage(source: ImageSource.gallery);
+  //   if (img != null) {
+  //     setState(() {
+  //       file = File(img.path);
+  //     });
+  //     String downloadURL = await uploadFile(file!);
+  //     print(downloadURL);
+  //   }
+  // }
+
+  // getcam() async {
+  //   var img = await ImagePicker().getImage(source: ImageSource.camera);
+  //   if (img != null) {
+  //     setState(() {
+  //       file = File(img.path);
+  //     });
+  //     String downloadURL = await uploadFile(file!);
+  //     print(downloadURL);
+  //   }
+  // }
+
+  // getgall2() async {
+  //   var img = await ImagePicker().getImage(source: ImageSource.gallery);
+  //   if (img != null) {
+  //     setState(() {
+  //       file2 = File(img.path);
+  //     });
+  //     String downloadURL = await uploadFile(file2!);
+  //     print(downloadURL);
+  //   }
+  // }
+
+  // getcam2() async {
+  //   var img = await ImagePicker().getImage(source: ImageSource.camera);
+  //   if (img != null) {
+  //     setState(() {
+  //       file2 = File(img.path);
+  //     });
+  //     String downloadURL = await uploadFile(file2!);
+  //     print(downloadURL);
+  //   }
+  // }
+  addCamera() async {
+    XFile? pickedFile = await _picker.pickImage(source: ImageSource.camera);
+    _pickedImage = File(pickedFile!.path);
+
+    if (_pickedImage != null) {
       setState(() {
-        file = File(img.path);
+        _pickedImage;
       });
-      String downloadURL = await uploadFile(file!);
-      print(downloadURL);
-    }
+    } else {}
   }
 
-  getcam() async {
-    var img = await ImagePicker().getImage(source: ImageSource.camera);
-    if (img != null) {
+  addGallery() async {
+    XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    _pickedImage = File(pickedFile!.path);
+
+    if (_pickedImage != null) {
       setState(() {
-        file = File(img.path);
+        _pickedImage;
       });
-      String downloadURL = await uploadFile(file!);
-      print(downloadURL);
-    }
+    } else {}
   }
 
-  getgall2() async {
-    var img = await ImagePicker().getImage(source: ImageSource.gallery);
-    if (img != null) {
+  addCamera2() async {
+    XFile? pickedFile2 = await _picker2.pickImage(source: ImageSource.camera);
+    _pickedImage2 = File(pickedFile2!.path);
+
+    if (_pickedImage2 != null) {
       setState(() {
-        file2 = File(img.path);
+        _pickedImage2;
       });
-      String downloadURL = await uploadFile(file2!);
-      print(downloadURL);
-    }
+    } else {}
   }
 
-  getcam2() async {
-    var img = await ImagePicker().getImage(source: ImageSource.camera);
-    if (img != null) {
+  addGallery2() async {
+    XFile? pickedFile2 = await _picker2.pickImage(source: ImageSource.gallery);
+    _pickedImage2 = File(pickedFile2!.path);
+
+    if (_pickedImage2 != null) {
       setState(() {
-        file2 = File(img.path);
+        _pickedImage2;
       });
-      String downloadURL = await uploadFile(file2!);
-      print(downloadURL);
-    }
+    } else {}
   }
 }

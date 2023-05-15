@@ -123,6 +123,26 @@ class _ReclamationState extends State<Reclamation> {
 
   String? selectedService;
   @override
+  void initState() {
+    getUserData();
+    super.initState();
+  }
+
+//! edheya yaaml read mn db firestore
+  User? user = FirebaseAuth.instance.currentUser;
+  var userData;
+  Future<DocumentSnapshot> getUserData() async {
+    var result = await FirebaseFirestore.instance
+        .collection('user')
+        .doc(user?.uid)
+        .get();
+    setState(() {
+      userData = result;
+    });
+    return result;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 182, 205, 224),
@@ -734,8 +754,10 @@ class _ReclamationState extends State<Reclamation> {
                   Container(
                     child: ElevatedButton(
                       onPressed: () async {
+                        var name = userData["nom&prenom"];
                         final User? user = FirebaseAuth.instance.currentUser;
                         final _uid = user!.uid;
+                        print(_uid);
                         if (selectedService == "client industriel") {
                           await FirebaseFirestore.instance
                               .collection('reclamation')
@@ -743,6 +765,7 @@ class _ReclamationState extends State<Reclamation> {
                               .collection('clients')
                               .doc(_uid)
                               .set({
+                            'name': name,
                             'activité': _activite,
                             'district': _district,
                             'date': _date,
@@ -760,6 +783,7 @@ class _ReclamationState extends State<Reclamation> {
                               .collection('clients')
                               .doc(_uid)
                               .set({
+                            'name': name,
                             'activité': _activite,
                             'district': _district,
                             'id': _uid,

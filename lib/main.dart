@@ -45,22 +45,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: Rem(), routes: {
-      "LoginView": (context) => connexion(),
-      "Reclamation": (context) => Reclamation(),
-      "loc": (context) => loc(),
-      "insciption": (context) => Inscription(),
-      "facture": (context) => Facture(),
-      "Facture22": (context) => Facture22(),
-      "panne": (context) => Panne(),
-      "rep": (context) => Rep(),
-      "rem": (context) => Rem(),
-      "Home": (context) => Home(),
-      "search": (context) => search(),
-      "gaz": (context) => gazz(),
-      // "rah": (context) => rah(),
-      "loginview": (context) => LoginView(),
-      "demande": (context) => Demande(),
-    });
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: gazz(),
+        routes: {
+          "LoginView": (context) => connexion(),
+          "Reclamation": (context) => Reclamation(),
+          "loc": (context) => loc(),
+          "insciption": (context) => Inscription(),
+          "facture": (context) => Facture(),
+          "Facture22": (context) => Facture22(),
+          "panne": (context) => Panne(),
+          "rep": (context) => Rep(),
+          "rem": (context) => Rem(),
+          "Home": (context) => Home(),
+          "search": (context) => search(),
+          "gaz": (context) => gazz(),
+          // "rah": (context) => rah(),
+          "loginview": (context) => LoginView(),
+          "demande": (context) => Demande(),
+        });
   }
 }
